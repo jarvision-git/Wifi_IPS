@@ -150,9 +150,15 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun scanSuccess() {
         val results = wifiManager.scanResults
+        Log.v("checkpoint status","Reached")
         if (results.size!=0 ) {
-            for(i in 1..results.size-1){
-                sb.append(results[i])
+//            var str=results[0].wifiSsid!!.toString()
+            for(i in 0..results.size-1){
+                if (results[i].getWifiSsid()!!.toString()== "Dolphin One") {
+                    sb.append(
+                        results[i].getWifiSsid().toString() + " " + results[i].level.toString()
+                    )
+                }
             }
             binding.tvWifi.text=sb
         }
