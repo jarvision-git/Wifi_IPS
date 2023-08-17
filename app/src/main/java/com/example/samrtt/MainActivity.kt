@@ -149,16 +149,43 @@ class MainActivity : AppCompatActivity() {
     }
     @SuppressLint("MissingPermission")
     private fun scanSuccess() {
+        var a:Int=0
+        var b:Int=0
         val results = wifiManager.scanResults
         Log.v("checkpoint status","Reached")
         if (results.size!=0 ) {
+
 //            var str=results[0].wifiSsid!!.toString()
             for(i in 0..results.size-1){
-                if (results[i].getWifiSsid()!!.toString()== "Dolphin One") {
+               if (results[i].BSSID==("d4:6e:0e:c9:46:0c")) {
+                   a=results[i].level
                     sb.append(
-                        results[i].getWifiSsid().toString() + " " + results[i].level.toString()
+                        results[i].wifiSsid.toString()+results[i].level.toString()
+                    )
+               }
+                if( results[i].BSSID==("b4:a7:c6:87:af:b6") ){
+                    b=results[i].level
+                    sb.appendLine(
+                        results[i].wifiSsid.toString()+results[i].level.toString()
                     )
                 }
+            }
+            if (a==0||b==0){
+                binding.tvRoom.text="Scan Again"
+
+            }
+            if (a<-30 && b<-60){
+                binding.tvRoom.text="Room 1"
+            }
+            else if (a<-20 && a>-55 && b<-30 && b>-60){
+                binding.tvRoom.text=" Room 2"
+            }
+            else if  (a<-55 && b>-60){
+                binding.tvRoom.text=" Room 3"
+            }
+            else{
+                binding.tvRoom.text=" Scan Again"
+
             }
             binding.tvWifi.text=sb
         }
